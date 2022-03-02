@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import dialogflow from "@google-cloud/dialogflow";
 
 const sessionClient = new dialogflow.SessionsClient();
@@ -8,7 +7,6 @@ const port = process.env.PORT || 5757;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
 
 app.post("talktochatbot", async (req, res) => {
   const projectId = "weather-app-tfos";
