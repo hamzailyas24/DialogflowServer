@@ -13,7 +13,7 @@ app.use(cors());
 app.post("talktochatbot", async (req, res) => {
   const projectId = "weather-app-tfos";
   const sessionId = req.body.sessionId || "session12345";
-  const query = req.body.text;
+  const query = 'Hello';
   const languageCode = "en-US";
 
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
