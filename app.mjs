@@ -19,21 +19,19 @@ app.post("talktochatbot", async (req, res) => {
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
   const request = {
-    session: sessionPath, // Session path
+    session: sessionPath, // Session ID, should be unique for every conversation
     queryInput: {
       text: {
         text: query,
-        languageCode: languageCode,
+        languageCode: languageCode, 
       }
     }
   };
 
   const responses = await sessionClient.detectIntent(request);
 
-  const result = responses[0].queryResult.fulfillmentText
-
   res.send({
-    text: result
+    text: responses[0].queryResult.fulfillmentText
   });
 
 });
