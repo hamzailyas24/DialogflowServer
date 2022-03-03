@@ -17,24 +17,27 @@ app.post("talktochatbot", async (req, res) => {
   const query = req.body.text;
   const languageCode = "en-US";
 
-  const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  // The path to identify the agent that owns the created intent.
+  const sessionPath = sessionClient.projectAgentSessionPath(
+    projectId,
+    sessionId
+  );
 
   const request = {
     session: sessionPath, // Session ID, should be unique for every conversation
     queryInput: {
       text: {
         text: query,
-        languageCode: languageCode, 
-      }
-    }
+        languageCode: languageCode,
+      },
+    },
   };
 
   const responses = await sessionClient.detectIntent(request);
 
   res.send({
-    text: responses[0].queryResult.fulfillmentText
+    text: responses[0].queryResult.fulfillmentText,
   });
-
 });
 
 app.get("/", (req, res) => {
