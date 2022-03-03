@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.post("talktochatbot", async (req, res) => {
+  console.log("User Says ===>", req.body.Body);
   const projectId = "weather-app-tfos";
   const sessionId = req.body.sessionId || "session12345";
   const query = req.body.text;
