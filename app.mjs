@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("talktochatbot", async (req, res) => {
+app.post("/talktochatbot", async (req, res) => {
   console.log("User Request ===>", req.body.Body);
   const projectId = "weather-app-tfos";
   const sessionId = req.body.sessionId || "session12345";
