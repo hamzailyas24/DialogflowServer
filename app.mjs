@@ -36,7 +36,7 @@ app.post("talktochatbot", async (req, res) => {
   const responses = await sessionClient.detectIntent(request);
 
   res.send({
-    text: responses[0].queryResult.fulfillmentText,
+    text: responses[0].queryResult.fulfillmentText
   });
 });
 
