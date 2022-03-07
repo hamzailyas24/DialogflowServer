@@ -71,6 +71,7 @@ app.post("/webhook", (req, res) => {
         const humidity = data.main.humidity;
         const feelsLike = data.main.feels_like;
         const responseText = `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`;
+        console.log(responseText);
         agent.add(responseText);
       })
       .catch(function (error) {
