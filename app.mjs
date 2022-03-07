@@ -1,6 +1,13 @@
 import express from "express";
 import cors from "cors";
 import dialogflow from "@google-cloud/dialogflow";
+import {
+  WebhookClient,
+  Card,
+  Suggestion,
+  Image,
+  Payload,
+} from "dialogflow-fulfillment";
 
 const sessionClient = new dialogflow.SessionsClient();
 
@@ -36,8 +43,25 @@ app.post("/talktochatbot", async (req, res) => {
   const responses = await sessionClient.detectIntent(request);
 
   res.send({
-    text: responses[0].queryResult.fulfillmentText
+    text: responses[0].queryResult.fulfillmentText,
   });
+});
+
+app.post("/webhook", async () => {
+  // The Current Temperature Of $cityName is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h.
+
+  const agent = new WebhookClient({ request: req, response: res });
+
+  function askWeather(agent) {
+    agent.add("Greetings! from a Webhook Server to Dialogflow");
+  }
+
+  var intentMap = new Map();
+
+  intentMap.set("weather", askWeather);
+
+  agent.handleRequest(intentMap);
+
 });
 
 app.get("/", (req, res) => {
