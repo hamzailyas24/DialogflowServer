@@ -47,7 +47,7 @@ app.post("/talktochatbot", async (req, res) => {
   });
 });
 
-app.post("/webhook", async () => {
+app.post("/webhook", (req, res) => {
   // The Current Temperature Of $cityName is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h.
 
   const agent = new WebhookClient({ request: req, response: res });
