@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dialogflow from "@google-cloud/dialogflow";
+import axios from "axios";
 import {
   WebhookClient,
   Card,
@@ -54,8 +55,28 @@ app.post("/webhook", (req, res) => {
 
   function askWeather(agent) {
     const cityName = agent.parameters.cityName;
-    console.log("City Name ===>", cityName);
-    agent.add(`The Current Temperature Of ${cityName} is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h:)`);
+
+    var config = {
+      method: "get",
+      url: `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bd6abdc20db1f463412a5c9df7dc7d7&units=metric`,
+      headers: {},
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const data = response.data;
+        const temp = data.main.temp;
+        const wind = data.wind.speed;
+        const humidity = data.main.humidity;
+        const feelsLike = data.main.feels_like;
+        agent.add(
+          `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   var intentMap = new Map();
@@ -63,7 +84,6 @@ app.post("/webhook", (req, res) => {
   intentMap.set("weather", askWeather);
 
   _agent.handleRequest(intentMap);
-
 });
 
 app.get("/", (req, res) => {
