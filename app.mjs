@@ -49,35 +49,28 @@ app.post("/talktochatbot", async (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-
   const _agent = new WebhookClient({ request: req, response: res });
 
-  function askWeather(agent) {
+  async function askWeather(agent) {
     const cityName = agent.parameters.cityName;
     const URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bd6abdc20db1f463412a5c9df7dc7d7&units=metric`;
-
-    async function getUser() {
-      try {
-        const response = await axios.get(URL);
-        const data = response.data;
-        const temp = data.main.temp;
-        const wind = data.wind.speed;
-        const humidity = data.main.humidity;
-        const feelsLike = data.main.feels_like;
-        const responseText = `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`;
-        console.log(responseText);
-        agent.add(responseText);
-      } catch (error) {
-        console.error("error in api call: ", error);
-      }
+    try {
+      const response = await axios.get(URL);
+      const data = response.data;
+      const temp = data.main.temp;
+      const wind = data.wind.speed;
+      const humidity = data.main.humidity;
+      const feelsLike = data.main.feels_like;
+      const responseText = `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h.`;
+      agent.add(responseText);
+    } catch (error) {
+      console.error("ERROR in API Call ===>: ", error);
     }
-
-    getUser();
   }
 
   var intentMap = new Map();
 
-  intentMap.set("weather", askWeather);
+  intentMap.set("AskWeather", askWeather);
 
   _agent.handleRequest(intentMap);
 });
