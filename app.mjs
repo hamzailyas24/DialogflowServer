@@ -49,7 +49,6 @@ app.post("/talktochatbot", async (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  // The Current Temperature Of $cityName is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h.
 
   const _agent = new WebhookClient({ request: req, response: res });
 
@@ -69,7 +68,7 @@ app.post("/webhook", (req, res) => {
         console.log(responseText);
         agent.add(responseText);
       } catch (error) {
-        console.error(error);
+        console.error("error in api call: ", error);
       }
     }
 
