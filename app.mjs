@@ -53,7 +53,7 @@ app.post("/webhook", async () => {
   const agent = new WebhookClient({ request: req, response: res });
 
   function askWeather(agent) {
-    agent.add("Greetings! from a Webhook Server to Dialogflow");
+    agent.add("The Current Temperature Of $cityName is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h.");
   }
 
   var intentMap = new Map();
