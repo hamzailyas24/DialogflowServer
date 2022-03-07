@@ -55,16 +55,11 @@ app.post("/webhook", (req, res) => {
 
   function askWeather(agent) {
     const cityName = agent.parameters.cityName;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bd6abdc20db1f463412a5c9df7dc7d7&units=metric`;
 
-    var config = {
-      method: "get",
-      url: `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bd6abdc20db1f463412a5c9df7dc7d7&units=metric`,
-      headers: {},
-    };
-
-    axios(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
+    async function getUser() {
+      try {
+        const response = await axios.get(URL);
         const data = response.data;
         const temp = data.main.temp;
         const wind = data.wind.speed;
@@ -73,10 +68,12 @@ app.post("/webhook", (req, res) => {
         const responseText = `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`;
         console.log(responseText);
         agent.add(responseText);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getUser();
   }
 
   var intentMap = new Map();
