@@ -50,18 +50,18 @@ app.post("/talktochatbot", async (req, res) => {
 app.post("/webhook", (req, res) => {
   // The Current Temperature Of $cityName is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h.
 
-  const agent = new WebhookClient({ request: req, response: res });
+  const _agent = new WebhookClient({ request: req, response: res });
 
   function askWeather(agent) {
-    const cityName = agent.parameters.cityName;
-    agent.add(`The Current Temperature Of ${cityName} is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h`);
+    const cityName = agent.parameters;
+    agent.add(`The Current Temperature Of ${cityName} is 24°C. Precipitation is 2%. Humidity is 53% and Wind is 10 km/h:)`);
   }
 
   var intentMap = new Map();
 
   intentMap.set("weather", askWeather);
 
-  agent.handleRequest(intentMap);
+  _agent.handleRequest(intentMap);
 
 });
 
