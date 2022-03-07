@@ -63,16 +63,15 @@ app.post("/webhook", (req, res) => {
     };
 
     axios(config)
-      .then(function (response) {
+      .then((response) => {
         console.log(JSON.stringify(response.data));
         const data = response.data;
         const temp = data.main.temp;
         const wind = data.wind.speed;
         const humidity = data.main.humidity;
         const feelsLike = data.main.feels_like;
-        agent.add(
-          `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`
-        );
+        const responseText = `The Current Temperature Of ${cityName} is ${temp}°C. Feels Like ${feelsLike}°C. Humidity is ${humidity}% and Wind is ${wind} km/h:)`;
+        agent.add(responseText);
       })
       .catch(function (error) {
         console.log(error);
